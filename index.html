@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyzing Netflix Trends Through IMDb Scores and Entertainment Characteristics</title>
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Local script for rendering the boxplot -->
+    <script defer src="d3_boxplot.js"></script>
+
+    <!-- Local script for rendering the barplot -->
+    <script defer src="d3_barplot.js"></script>
+
+    <!-- Local script for rendering the scatter -->
+    <script src="scripts/scatter.js"></script>
+
+</head>
+
+<body>
+
+    <div class="title">
+        ANALYZING <span class="highlight">NETFLIX</span> TRENDS THROUGH <span class="highlight-i">IMDb</span> SCORES &
+        ENTERTAINMENT CHARACTERISTICS
+    </div>
+    <!-- Introduction Section -->
+    <section id="introduction">
+        <h2>Introduction</h2>
+        <p>
+            Netflix once dominated the global streaming industry, but now numerous platforms compete for viewers'
+            attention. Streaming has become the new norm in a way, as it begins to replace cable television, with
+            channels moving content to their own platforms. New competitors such as Max, Peacock, Amazon Prime Video,
+            Hulu, and many more have entered the streaming arena. While Netflix still holds power in its respective
+            industry, how has the application changed across the years? With new competition, it becomes clear that the
+            platform must continue expanding its library as it has done in the past, but does this mean sacrificing
+            quality in exchange for quantity? Additionally, does it cater to the same audience it always has, or has
+            that shifted as time has progressed? Our project aims to analyze these questions, as well as many more,
+            regarding Netflix and how it has adapted with time.
+
+        </p>
+        <h3>Reference Papers</h3>
+        <p>
+            To learn more, you can visit the article <a href="https://academic.oup.com/joc/article/72/4/511/6605780">
+                Netflix, Library Analysis, and Globalization: Rethinking Mass Media Flows</a>, which examines Netflix's
+            2021 data, revealing strategies like offering binge-worthy shows and releasing content in multiple languages
+            to appeal to a global audience.
+            Another article,<a href="https://journals.sagepub.com/doi/10.1177/15274764221100474">“We Don’t Aspire to Be
+                Netflix”</a>, explores Netflix’s growth over time, highlighting its expansion to more countries, growing
+            viewer bases, and use of user data for tailored recommendations.
+            Both papers offer valuable insights into Netflix's evolving strategies, providing context for our analysis
+            of Netflix trends and the changes observed in the data.
+        </p>
+
+        <h3>Introduction to the Data</h3>
+        <p>
+            For our analysis, we utilize two datasets from Kaggle: <a
+                href="https://www.kaggle.com/datasets/thedevastator/netflix-imdb-scores/data">Netflix IMDB Scores</a>
+            and <a href="https://www.kaggle.com/datasets/rahulvyasm/netflix-movies-and-tv-shows"> Netflix Movies and TV
+                Shows</a>.
+            The merged dataset contains 10 columns and entries, spanning from 2008 to 2021. It provides a comprehensive
+            overview of
+            Netflix's content offerings during this period.
+
+        <div class="table-container">
+            <table id=dataset border="1">
+                <tr>
+                    <th>Variable Name</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>title</strong></td>
+                    <td>Name of the movie or TV show</td>
+                </tr>
+                <tr>
+                    <td><strong>type</strong></td>
+                    <td>Indicates whether the entry is a movie or TV show</td>
+                </tr>
+                <tr>
+                    <td><strong>release_year</strong></td>
+                    <td>Year the movie or TV show was originally released</td>
+                </tr>
+                <tr>
+                    <td><strong>runtime</strong></td>
+                    <td>Duration of the movie in minutes or average episode length for TV shows</td>
+                </tr>
+                <tr>
+                    <td><strong>imdb_score</strong></td>
+                    <td>IMDb rating score (0-10) based on user reviews</td>
+                </tr>
+                <tr>
+                    <td><strong>imdb_votes</strong></td>
+                    <td>Total number of IMDb votes received for the title</td>
+                </tr>
+                <tr>
+                    <td><strong>country</strong></td>
+                    <td>Country where the movie or TV show was produced</td>
+                </tr>
+                <tr>
+                    <td><strong>date_added</strong></td>
+                    <td>Date when the title was added to Netflix </td>
+                </tr>
+                <tr>
+                    <td><strong>listed_in</strong></td>
+                    <td>Genres or categories associated with the title</td>
+                </tr>
+                <tr>
+                    <td><strong>rating</strong></td>
+                    <td>Age certification rating (e.g., PG, R, TV-MA)</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section id="transition">
+        <p>
+            Understanding Netflix’s content library is just the first step—how have audience ratings changed over time?
+            By analyzing IMDb score trends, we can see how Netflix’s evolving content strategy has influenced viewer
+            reception. The visualization below highlights these shifts, showing how IMDb scores have varied across
+            different media runtimes.
+        </p>
+    </section>
+    <!-- Boxplot Title Section -->
+    <section id="boxplot-title">
+        <h2>IMDb Scores by Media Runtime</h2>
+        <p>This boxplot visualizes the distribution of IMDb scores for TV shows and movies, categorized by runtime
+            length. The categories are:</p>
+        <ul>
+            <li><strong>Short</strong>: Runtime ≤ 90 minutes</li>
+            <li><strong>Medium</strong>: Runtime ≤ 150 minutes</li>
+            <li><strong>Long</strong>: Runtime > 150 minutes</li>
+        </ul>
+
+    </section>
+
+    <section id="boxplot">
+
+    </section>
+
+    <div class="columns">
+        <div class="column">
+            <div class="row">
+                <section id="boxplot-description">
+                    <h3>Takeaways:</h3>
+                    The analysis of IMDb ratings across different media lengths reveals several key takeaways. First,
+                    the average audience rating remains fairly consistent across short, medium, and long films. The
+                    median scores are all quite close, suggesting that simply making a film longer or shorter doesn’t
+                    guarantee a better rating. Additionally, the range of ratings, from lower to upper quartiles, is
+                    quite similar across all three categories, meaning no particular length consistently leads to more
+                    unpredictable or varied reviews. However, there are some distinctions in the presence of outliers.
+                    Shorter films tend to have the most extreme ratings, with both very high and very low scores
+                    appearing more often. Medium-length films also exhibit some outliers, but longer films tend to
+                    remain within a more stable rating range, indicating that short films may be more of a “hit or miss”
+                    with audiences. Interestingly, the highest-rated media are more frequently found in the short
+                    category, with a top rating of 9.3, slightly above the best-rated medium (9.2) and long (8.7) films.
+                    However, this doesn’t imply that short films are always better; in fact, there are also more very
+                    low-rated short films compared to longer ones.
+                </section>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="row">
+                <section id="boxplot-implications">
+                    <h3>Implications:</h3>
+                    <ul>
+                        <li>Runtime alone is not a strong predictor of success. Instead, other factors such as
+                            storytelling, production quality, and genre are likely more influential in determining
+                            IMDb
+                            ratings.</li>
+                        <li>Investment in short-form content may yield higher highs, but it does not guarantee
+                            better
+                            ratings overall. While some of the highest-rated films are short, this category also
+                            sees
+                            more extreme reviews, both positive and negative. If we invest in short content, it
+                            should
+                            be carefully crafted to maximize impact and avoid pitfalls that lead to low ratings.
+                        </li>
+                        <li>A diverse content strategy remains valuable, as high and low ratings exist across all
+                            runtime categories. Offering a mix of short, medium, and long content is a smart
+                            approach.
+                            This way, we can capture different audience preferences while reducing risk.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <section id="lineplot-title">
+        <h2>IMDb Score Trends Over Time</h2>
+        <p>While runtime offers insight into audience preferences, it’s only part of the story. Netflix’s content
+            strategy has evolved over the years, influencing the types of films and shows released and how they are
+            received. The interactive visualization below explores these shifts by tracking IMDb scores over time,
+            revealing trends in content quality and viewer reception.
+
+
+            Hover over each point to see the average IMDb score per year and the year content was added to Netflix.
+        </p>
+
+    </section>
+
+    <div class="lineplot-container">
+        <section id="lineplot">
+            <iframe src="imdb_score_trends.html" width="800" height="500" style="border:none;"></iframe>
+        </section>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <div class="row">
+
+                <section id="lineplot-description">
+                    <h3>Takeaways:</h3>
+                    Netflix’s content strategy has evolved in response to changing industry dynamics. Initially, the
+                    platform focused on acquiring high-rated content to build credibility, then shifted toward mass
+                    content expansion to attract a broader audience. Over time, Netflix refined its approach by
+                    balancing quality with quantity. A key moment in this evolution occurred between 2013 and 2014, when
+                    the rebound in IMDb scores highlighted the impact of Netflix’s investment in original programming.
+                    High-quality, exclusive content like House of Cards and Orange is the New Black became central to
+                    Netflix’s identity, helping it stand out in an increasingly competitive market. However, Netflix's
+                    fluctuating IMDb scores also reflect the tension between content volume and quality. While rapid
+                    expansion led to a temporary decline in ratings, the company ultimately stabilized its approach by
+                    curating a diverse library that maintains a consistent level of quality while catering to a global
+                    audience. These shifts in strategy are closely aligned with changes in the streaming landscape. As
+                    competitors emerged, Netflix responded by scaling its content library, then refocusing on originals,
+                    and finally balancing both strategies to sustain its market dominance.
+                </section>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="row">
+                <h3>Implications:</h3>
+                <ul>
+                    <li>Netflix’s success hinges on its ability to adapt to audience preferences and industry shifts.
+                        Streaming platforms must stay agile, analyzing viewer behavior to refine their offerings.</li>
+                    <li>The rise of original programming highlights the need for exclusive, high-quality content to stay
+                        competitive. Platforms that neglect strong originals risk losing engagement and brand loyalty.
+                    </li>
+                    <li>Balancing content volume and quality is crucial—too much variety can dilute brand identity,
+                        while a narrow selection may limit reach. A well-curated, diverse catalog appeals to different
+                        audience segments.</li>
+                    <li>Trends in IMDb scores suggest Netflix fine-tunes its strategy using audience insights. Other
+                        platforms can follow suit by leveraging data analytics to optimize content acquisition and
+                        production.</li>
+                    <li>As streaming evolves, success will depend on anticipating consumer expectations, maintaining
+                        high production standards, and differentiating through compelling storytelling.
+                    </li>
+                </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <section id="barplot-title">
+        <h2>Average IMDb Score by Age Rating</h2>
+
+        <p>The aim of this section of our analysis
+            is to gain insight into the relationship
+            between the age rating on content and viewer engagement.</p>
+        <p>The figure is a horizontal bar chart with color encoding.
+            Each bar represents the average IMDb score of titles within a specific
+            age rating, while the bar color reflects the total number of votes received
+            — one possible measure of popularity.
+            Hover over the bars to see the metrics.</p>
+    </section>
+
+    <section id="barplot">
+    </section>
+
+    <div class="columns">
+        <div class="column">
+            <div class="row">
+                <section id="barplot-takeaways">
+                    <h3>Takeaways</h3>
+                    <ul>
+                        <li>As the level of maturity increases,
+                            the amount of votes on that level of content is greater.
+                            This is the case until the maturity level R.
+                            NC-17 has significantly less votes than the rest of
+                            the age ratings due to the age certifications
+                            being far less popular than the rest listed.
+                        </li>
+                        <li>
+                            Average score is fairly consistent across the
+                            various age certifications, despite the frequency of votes
+                            all being greatly different.
+                        </li>
+                        <li>
+                            Content rated TV-Y, TV-Y7, TV-G, and G tend to have
+                            fewer total votes and slightly lower average scores.
+                            This potentially means less IMDb user engagement with
+                            content aimed at very young viewers — perhaps due to
+                            IMDb’s adult-skewing user base.
+                        </li>
+                        <li>
+                            NC-17 ratings have a small presence in Netflix content.
+                            This category appears with low scores and vote counts, indicating
+                            it may represent niche or less mainstream content with
+                            little access or appeal.
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <div class="column">
+            <div class="row">
+                <section id="barplot-implications">
+                    <h3>Implications:</h3>
+                    <ul>
+                        <li>
+                            Streaming platforms and production companies should consider the larger engagement seen with
+                            PG-13, R, and TV-MA rated content when planning releases or marketing strategies.
+                            These categories clearly resonate more with IMDb’s user base, suggesting adult-oriented
+                            content garners more interaction and discussion.
+                        </li>
+                        <li>
+                            The lower vote counts for youth-rated content reflect IMDb’s likely adult-leaning user
+                            demographic.
+                            Platforms targeting families or younger audiences may find that IMDb ratings don't fully
+                            capture
+                            engagement from their core viewers and should rely on alternative metrics.
+                        </li>
+                        <li>
+                            The sharp drop-off in votes for NC-17 content suggests a limited audience and potentially
+                            reduced discoverability.
+                            This could impact content placement decisions for media that falls into that rating,
+                            especially on mainstream platforms
+                            like Netflix.
+                        </li>
+                        <li>
+                            Since age ratings correlate with vote volume, developers and researchers should be cautious
+                            using IMDb data as a proxy
+                            for popularity or quality across all age groups. The data may overrepresent certain segments
+                            (like adult viewers)
+                            and underrepresent others (like children or families).
+                        </li>
+                        <li>
+                            While average score may be very similar, the popularity difference across maturity levels
+                            indicates that we should look further into the individual distributions for each age rating.
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+
+    <section id="agebox-title">
+        <h2>IMDb Score Distribution by Age Rating</h2>
+        <p>Next, to get a better picture in case of skewed distributions for each age rating,
+            we will use a side-by-side boxplot showing the distributions for the levels.
+        </p>
+        <p>
+            The figure shows side-by-side boxplots for Netflix movies and shows.
+            Each boxplot represents one of the age categories/rating.
+            For each of these age ratings, the boxplot shows the distribution of the
+            IMDb scores for content in that certain age group.
+            Use the drop-down below the chart to select age ratings for TV or Movie.
+            Hover over the boxes to see the metrics.
+        </p>
+    </section>
+
+    <section id="agebox">
+        <iframe src="agebox.html" width="800" height="550" style="border:none;"></iframe>
+    </section>
+
+    <div class="columns">
+        <div class="column">
+            <div class="row">
+                <section id="agebox-takeaways">
+                    <h3>Takeaways</h3>
+                    <h4>TV</h4>
+                    <p>
+                        The distributions for the boxplots largely overlap with one another.
+                        This may indicate that Netflix is generally consistent with the quality of
+                        content across various age certifications.
+                        Several of the ratings have outliers, but for the ratings 'TV-MA' and 'TV-14',
+                        there appear to be many outliers. Additionally, they seem to have whiskers
+                        that extend across a spread out range of values compared to other ratings.
+                        The 'G' rating appears to have the smallest spread, and is not majorly skewed in either
+                        direction.
+                    </p>
+                    <h4>MOVIE</h4>
+                    <p>
+                        The boxplots also overlap for the movies, showing pretty similar distributions.
+                        However, content levels PG-13 and R appear to have a larger spread relative to
+                        lower maturity levels. NC-17 has only one value, indicating that in this dataset,
+                        there is probably just one NC-17 film.
+                        PG has outliers on both the left and right side of the dsitribution.
+                        PG-13 and R have numerous lower outliers.
+                    </p>
+                </section>
+            </div>
+        </div>
+        <div class="column">
+            <div class="row">
+                <section id="agebox-implications">
+                    <h3>Implications</h3>
+                    <p>
+                        We can see that the majority of age ratings with outliers appear to be skewed to the left.
+                        The averages across all levels were similar, but the distributions indicate that for the more
+                        popular categories--the ones that cater to more mature audiences--are possibly more well
+                        received
+                        thought when we saw the initial findings.
+                    </p>
+                    <p>
+                        In addition, they have many, many lower outliers, yet their average scores
+                        still remain the second and third largest out of all the ratings
+                        (by less than a tenth). Without outliers, the projected average ratings would be larger--and
+                        probably by a significant amount.
+                    </p>
+                    <p>
+                        It is known that Netflix has strategically utilized more "bingeable" content--often TV shows
+                        that are TV-14 and TV-MA. Based on the popularity and positive reception of this content,
+                        Netflix
+                        should continue to release more content that users are able to "binge-watch" to keep up with
+                        competitors.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="scatterplot1-title">
+        <h2>IMDb Ratings vs Number of Reviews</h2>
+    </section>
+
+    <section id="ratings_vs_reviews">
+        <iframe src="imdb_ratings_vs_reviews.html" width="800" height="500" style="border:none;"></iframe>
+    </section>
+
+    <div class="columns">
+        <div class="column">
+            <div class="row">
+                <section id="scatterplot1-description">
+                    <h3>Takeaways:</h3>
+                    <p>
+                        The scatterplot reveals a potential relationship between the IMDb rating and the number of
+                        reviews (votes) a movie or TV show has received. <br>
+                    </p>
+                    <p>
+                        Through this visualization we can see that movies and TV shows with higher ratings often tend to have a
+                        larger number of reviews, especially if they are well-known or widely appreciated by the audience.
+                        This indicates that the most popular and highly rated content tends to accumulate more reviews
+                        over time.
+                        <br>
+                    </p>
+                    <p>
+                        In addition, there may be some content with high IMDb ratings but fewer
+                        reviews, possibly indicating niche content, older movies, or shows that were well-received by a smaller
+                        audience.
+                        <br>
+                    </p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="row">
+                <h3>Implications:</h3>
+                <p>
+                    A higher number of reviews might correlate with greater audience
+                    engagement. Content that generates more reviews could indicate that it is widely discussed,
+                    analyzed, or critiqued, suggesting it is popular or has a passionate fanbase.
+                </p>
+                <p>
+                    Studios and content creators could use this data to assess the level of engagement with their
+                    content. For example, if a film or series has a high rating but low votes, it may indicate that
+                    while the content is well-received, it has not reached a large audience or lacks the viral quality
+                    that drives more people to review it.
+                </p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <section id="scatterplot2-title">
+        <h2>Number of Releases vs. Average IMDB Ratings</h2>
+    </section>
+
+    <div id="scatter"></div>
+
+    <div class="columns">
+        <div class="column">
+            <div class="row">
+                <section id="scatterplot2-description">
+                    <h3>Takeaways:</h3>
+                    <p>
+                        The scatter plot reveals how the average IMDb ratings of movies and TV shows have fluctuated
+                        over the years.
+                        A noticeable trend (either upward or downward) could indicate shifts in audience preferences or
+                        changes in
+                        production quality.<br>
+                    </p>
+                    <p>
+                        Within the above data visualization, the size of the circles represents the number of releases each year.
+                        If certain years have significantly larger circles, it suggests peak periods in content
+                        production, possibly influenced by factors like streaming platform expansions or major industry shifts.
+                        <br>
+                    </p>
+                    <p>
+                     The outliers that can be seen within the dataset (e.g., a year with an unusually high or low average rating) may signal
+                        significant
+                        events such as the rise of a particular genre, the influence of a major franchise, or changes in
+                        industry
+                        standards.
+                        <br>
+                    </p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="row">
+                <h3>Implications:</h3>
+                <p>
+                    Platforms like Netflix, Hulu, or HBO Max could use this data to assess past trends and determine
+                    optimal
+                    content release strategies.
+                    If TV shows have consistently higher ratings than movies in certain periods, they might prioritize
+                    show
+                    production.
+                </p>
+                <p>
+                    The major shifts (e.g., the rise of streaming services, global events like the pandemic, or
+                    technological
+                    advancements) can be analyzed in correlation with the data, providing insights into how external
+                    factors influence entertainment consumption. This can then inform large streaming platforms on how the number of releases
+                    in a year can either improve or decrease the average rating of a show/move. 
+                </p>
+            </div>
+        </div>
+    </div>
+
+    </section>
+
+    <section id="conclusion">
+        <h2>Conclusion</h2>
+        <p>The analysis of IMDb ratings across various factors, including media length, Netflix's content strategy,
+            maturity levels, and audience engagement, has revealed several valuable insights.</p>
+    </section>
+
+    <section id="key-findings">
+        <h3>Key Findings</h3>
+        <ul>
+            <li>Media Length and Ratings: Runtime alone is not a strong predictor of audience reception. Short films
+                have a broader range of ratings, making them riskier investments, while longer films generally receive
+                more consistent scores.</li>
+            <li>Netflix’s Content Strategy: Netflix has shifted from acquiring highly rated content to balancing
+                quantity and quality, with original programming becoming a key driver of success.</li>
+            <li>Maturity Ratings and Audience Engagement: PG-13, R, and TV-MA content receive the most IMDb votes, while
+                youth-oriented and NC-17 content tend to see lower engagement, possibly due to IMDb’s adult-skewed user
+                base.</li>
+            <li>Ratings and Review Volume: Highly rated content often garners more reviews, whereas some niche content
+                may receive high ratings but have limited audience reach.</li>
+            <li>Trends Over Time: IMDb rating fluctuations reflect industry shifts, streaming expansion, and changing
+                audience preferences. The number of releases per year aligns with platform growth and major
+                entertainment trends.</li>
+        </ul>
+    </section>
+
+    <section id="limitations">
+        <h3>Limitations</h3>
+        <ul>
+            <li>IMDb’s user base may not fully represent all audiences, especially for family-friendly or niche content.
+            </li>
+            <li>Regional differences are not accounted for, which could influence rating trends based on cultural
+                preferences.</li>
+            <li>Correlation does not imply causation—high ratings do not necessarily lead to high engagement and vice
+                versa.</li>
+            <li>Additional quality metrics, such as audience retention and social media engagement, are not considered.
+            </li>
+        </ul>
+    </section>
+
+    <section id="future-recommendations">
+        <h3>Future Recommendations</h3>
+        <ul>
+            <li>Streaming platforms should balance quality and quantity by leveraging data-driven insights.</li>
+            <li>High-rated but low-review content presents an opportunity for targeted marketing to increase awareness
+                and engagement.</li>
+            <li>Future analyses could incorporate additional engagement metrics, such as watch time and review
+                sentiment, for a more comprehensive understanding.</li>
+            <li>Segmenting ratings by geographic region could help tailor content strategies for diverse audiences.</li>
+            <li>Continuous monitoring of industry trends and audience behaviors is crucial for adapting to technological
+                advancements in the entertainment landscape.</li>
+        </ul>
+
+        <p>By leveraging these insights, content creators and streaming platforms can optimize their strategies to
+            sustain long-term success and maximize audience engagement.</p>
+
+    </section>
+
+</body>
+
+<div class="contact">
+    <h3>Contact Us!</h3>
+    <p>Paulina Acosta: acosta.pa@northeastern.edu</p>
+    <p>Alissa Agnelli: agnelli.al@northeastern.edu</p>
+    <p>Regina Rabkina: rabkina.r@northeastern.edu</p>
+</div>
+
+</html>

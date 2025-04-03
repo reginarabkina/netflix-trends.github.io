@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"mark": {"type": "line", "color": "#247ba0", "point": true}, "encoding": {"tooltip": [{"field": "year_added", "type": "quantitative"}, {"field": "imdb_score", "type": "quantitative"}], "x": {"field": "year_added", "title": "Year Content Added to Netflix", "type": "ordinal"}, "y": {"field": "imdb_score", "title": "Average IMDB Score", "type": "quantitative"}}, "name": "view_8", "title": "IMDB Score Trends for Content Added to Netflix"}, {"mark": {"type": "circle", "color": "#247ba0", "size": 100}, "encoding": {"opacity": {"condition": {"param": "param_13", "value": 1, "empty": false}, "value": 0}, "tooltip": [{"field": "year_added", "type": "quantitative"}, {"field": "imdb_score", "type": "quantitative"}], "x": {"field": "year_added", "title": "Year Content Added to Netflix", "type": "ordinal"}, "y": {"field": "imdb_score", "title": "Average IMDB Score", "type": "quantitative"}}, "name": "view_7", "title": "IMDB Score Trends for Content Added to Netflix"}], "data": {"name": "data-5f8f01d48f4908cd03e69b8cb690c535"}, "params": [{"name": "param_13", "select": {"type": "point", "fields": ["year_added"], "nearest": true, "on": "mouseover"}, "views": ["view_7"]}, {"name": "param_14", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_8"]}], "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-5f8f01d48f4908cd03e69b8cb690c535": [{"year_added": 2009, "imdb_score": 7.2}, {"year_added": 2011, "imdb_score": 6.55}, {"year_added": 2013, "imdb_score": 7.133333333333333}, {"year_added": 2014, "imdb_score": 7.359999999999999}, {"year_added": 2015, "imdb_score": 6.503703703703703}, {"year_added": 2016, "imdb_score": 6.786538461538461}, {"year_added": 2017, "imdb_score": 6.4248322147651}, {"year_added": 2018, "imdb_score": 6.4285140562249}, {"year_added": 2019, "imdb_score": 6.5056701030927835}, {"year_added": 2020, "imdb_score": 6.392459826946848}, {"year_added": 2021, "imdb_score": 6.361335403726708}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

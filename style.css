@@ -1,0 +1,109 @@
+#introduction, #conclusion {
+    background-color: #f4f4f4;
+}
+
+.title {
+    background-color:#605f5e;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+}
+
+.highlight {
+    color: #FB3640;
+    font-weight: bold;
+}
+
+.highlight-i {
+    color:#E1DD8F;
+    font-weight: bold;
+}
+
+
+.table-container {
+    width: 100%; 
+    display: flex;
+    justify-content: center; 
+}
+
+
+#dataset {
+    width: auto; 
+    display: block;
+    margin: 0 auto; 
+}
+
+#boxplot {
+    width: 800px;
+    height: 500px;
+    margin: auto;
+}
+
+section {
+    margin: 0;
+    padding: 20px;
+}
+
+#boxplot-title,#barplot-title, #lineplot-title, #agebox-title, #scatterplot1-title, #scatterplot2-title {
+    background-color:#1d3461;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+#boxplot-title ul, #key-findings ul, #limitations ul, #future-recommendations ul {
+    display: inline-block;
+    list-style-type: inside;
+    text-align: left;
+}
+
+.lineplot-container {
+    width: 100%; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+
+#lineplot iframe, #ratings_vs_reviews iframe {
+    width: 120%; 
+    max-width: 800px; 
+    height: 470px;
+    border: none;
+}
+
+
+body {
+    font-family: Futura;
+    margin: 0;
+    padding: 35px;
+    text-align: center;
+    border: 4px solid #333;
+}
+
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.column {
+    width: 48%;
+    padding: 25px;
+    background-color:#c8c8c8;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+;
+}
+
+
+.contact {
+    background-color: #ddd;
+    padding: 20px;
+    margin-top: 20px;
+}
